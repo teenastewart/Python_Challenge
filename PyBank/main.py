@@ -9,41 +9,87 @@ budget_csv = os.path.join("Resources", "budget_data.csv")
 # Reading the CSV
 with open(budget_csv, newline='') as csvfile:
     csvreader = csv.reader(csvfile, delimiter =',')
+    
 
     
     # skips the header row
     csv_header = next (csvreader)
     months = 0
     net_profit = 0
-    yrmax = 0
-    yrmin = 0
+    #yrmaxmin = []
+    #yrmin = 0
+    #maxmindate = []
+  
     for row in csvreader:
-    # Calculate the number of months in the CSV
+        # Calculate the number of months in the CSV
         months += 1
+        # Calculate the net profit
         net_profit += int(row[1])
+        # Format the net profit
         net_money = "${:,.2f}".format(net_profit)
-        if int(row[1]) > yrmax:
-            yrmax = int(row[1])
-        elif int(row[1]) < yrmin:
-            yrmin = int(row[1])    
+        # Find the max and min values
+        #yrmaxmin.append("${:,.2f}".format(row[1]))
+        #maxmindate.append(row[2])
+        #if int(row[1]) > int(yrmax):
+        #     yrmax = (int(row[1])
+        #     maxdate = str(row[0])
+        # elif int(row[1]) < int(yrmin):
+        #     yrmin = (int(row[1])
+        #     mindate = row[0]
 
+    #yrmax = max(yrmaxmin)
+    #yrmin = min(yrmaxmin)
+    # Calculate average
     yraverage = (net_profit/months)
+    # Format average
     yravmoney = "${:,.2f}".format(yraverage)
+    # Format max and min values
+    #yrmaxmoney = "${:,.2f}".format(yrmax)
+    #yrminmoney = "${:,.2f}".format(yrmin)
+    #minmaxls = zip(maxmindate, yrmaxmin)
+   
+# re-populates reader
+with open(budget_csv, newline='') as csvfile:
+    csvreader = csv.reader(csvfile, delimiter =',')
+    # skips the header row
+    csv_header = next (csvreader)
+    # finding the max value in column b and grabbing the row data
+    yrmax = (max(csvreader, key=lambda _: _[1]))
+    # formatting the profit as money
+    yrmaxmoney = "${:,.2f}".format(int(yrmax[1]))
+    
+# re-populates reader
+with open(budget_csv, newline='') as csvfile:
+    csvreader = csv.reader(csvfile, delimiter =',')
+    # skips the header row
+    csv_header = next (csvreader)
+    # finding the max value in column b and grabbing the row data
+    yrmin= (min(csvreader, key=lambda _: _[1]))
+    # formatting the profit as money
+    yrminmoney = "${:,.2f}".format(int(yrmin[1]))
 
-    # Calculate the net profit
-    #net_profit = sum(int(row[1]) for row in csvreader)
-    print(f"Total Months: {months}")
-    print(f"Total: {net_money}")
-    print(f"Average Change: {yravmoney}")
-    print(f"Greatest Increase in Profits: {yrmax}")
-    print(f"Greatest Decrease in Profits: {yrmin}")
-    # net_profit = 0
-    # for row in csvreader:
-        #print(row)
-        # net_profit += int(row[1])
-    
-    
-    # for row in csv.reader(csvfile):
-       
+# Print the analysis
+print(f"""Financial Analysis
+        ------------------
+        Total Months: {months}
+        Total: {net_money}
+        Average Change: {yravmoney}
+        Greatest Increase in Profits: {(yrmax[0])} ({yrmaxmoney})
+        Greatest Decrease in Profits: {(yrmin[0])} ({yrminmoney})""")
+
+# set variable for output file
+output_file = os.path.join("Analysis", "result.txt")
+
+#  Open the output file
+file = open(output_file, "w")
+file.write(f"""Financial Analysis
+        ------------------
+        Total Months: {months}
+        Total: {net_money}
+        Average Change: {yravmoney}
+        Greatest Increase in Profits: {(yrmax[0])} ({yrmaxmoney})
+        Greatest Decrease in Profits: {(yrmin[0])} ({yrminmoney})""")
+file.close()
+
         
 
