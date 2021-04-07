@@ -9,16 +9,13 @@ budget_csv = os.path.join("Resources", "budget_data.csv")
 # Reading the CSV
 with open(budget_csv, newline='') as csvfile:
     csvreader = csv.reader(csvfile, delimiter =',')
-    
-
+   
     
     # skips the header row
     csv_header = next (csvreader)
     months = 0
     net_profit = 0
-    #yrmaxmin = []
-    #yrmin = 0
-    #maxmindate = []
+
   
     for row in csvreader:
         # Calculate the number of months in the CSV
@@ -27,26 +24,12 @@ with open(budget_csv, newline='') as csvfile:
         net_profit += int(row[1])
         # Format the net profit
         net_money = "${:,.2f}".format(net_profit)
-        # Find the max and min values
-        #yrmaxmin.append("${:,.2f}".format(row[1]))
-        #maxmindate.append(row[2])
-        #if int(row[1]) > int(yrmax):
-        #     yrmax = (int(row[1])
-        #     maxdate = str(row[0])
-        # elif int(row[1]) < int(yrmin):
-        #     yrmin = (int(row[1])
-        #     mindate = row[0]
 
-    #yrmax = max(yrmaxmin)
-    #yrmin = min(yrmaxmin)
     # Calculate average
     yraverage = (net_profit/months)
     # Format average
     yravmoney = "${:,.2f}".format(yraverage)
-    # Format max and min values
-    #yrmaxmoney = "${:,.2f}".format(yrmax)
-    #yrminmoney = "${:,.2f}".format(yrmin)
-    #minmaxls = zip(maxmindate, yrmaxmin)
+
    
 # re-populates reader
 with open(budget_csv, newline='') as csvfile:
